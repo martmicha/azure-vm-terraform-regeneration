@@ -22,7 +22,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg"{                    #resource group is called "main"???
 
-  name = "project-codehub-reg-testnew2"
+  name = "project-codehub-reg-testnew_new"
   location = var.location
 }
 
