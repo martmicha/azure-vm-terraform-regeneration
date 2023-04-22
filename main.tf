@@ -92,7 +92,7 @@ resource "azurerm_network_interface_security_group_association" "nisga" {
 
 # Create virtual machine
 resource "azurerm_virtual_machine" "vm" {
-  name                  = "project-codehub-vm"
+  name                  = "project-codehub-vm-node"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.netif.id]
