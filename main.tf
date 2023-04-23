@@ -111,9 +111,6 @@ resource "azurerm_network_interface_security_group_association" "nisga" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-data "jenkins_credential" "ssh_key" {
-  name = "ssh_private_key_for_VM2"
-}
 
 # Create virtual machine
 resource "azurerm_virtual_machine" "vm" {
@@ -144,10 +141,6 @@ resource "azurerm_virtual_machine" "vm" {
     computer_name  = "hostname"
     admin_username = var.admin_username
     admin_password = var.admin_password
-    ssh_key {
-      path     = "~/.ssh/authorized_keys"
-      key_data = data.jenkins_credential.ssh_key.secret_text
-    }
   }
 
   os_profile_linux_config {
