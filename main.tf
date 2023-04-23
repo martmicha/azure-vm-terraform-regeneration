@@ -20,18 +20,27 @@ provider "azurerm" {
 #A Resource Group is a container that holds a collection of resources.
 #The Azure Resource Manager is the service that is responsible for creating, updating and deleting the resources of an Azure account.
 
-resource "azurerm_resource_group" "rg"{                    #resource group is called "main"???
+#resource "azurerm_resource_group" "rg"{                    #resource group is called "main"???
 
-  name = "project-codehub-reg2"
-  location = var.location
-}
+ # name = "project-codehub-reg"
+ # location = var.location
+#}
 
 #Create virtual network
-resource "azurerm_virtual_network" "vnet"{ 
-  name                = "project-codehub-network"
-  location            = azurerm_resource_group.rg.location        #location is the same as the resource group's
-  resource_group_name = azurerm_resource_group.rg.name            #belongs in the resource group created above
-  address_space       = ["10.0.0.0/16"]
+#resource "azurerm_virtual_network" "vnet"{ 
+#  name                = "project-codehub-network"
+#  location            = azurerm_resource_group.rg.location        #location is the same as the resource group's
+#  resource_group_name = azurerm_resource_group.rg.name            #belongs in the resource group created above
+#  address_space       = ["10.0.0.0/16"]
+#}
+
+data "azurerm_resource_group" "rg" {
+  name = "project-codehub-reg"
+}
+
+data "azurerm_virtual_network" "vnet"{ 
+  name = "project-codehub-network"
+  resource_group_name  = data.azurerm_resource_group.rg.name
 }
 
 #Create a subnet
@@ -104,7 +113,7 @@ resource "azurerm_network_interface_security_group_association" "nisga" {
 
 # Create virtual machine
 resource "azurerm_virtual_machine" "vm" {
-  name                  = "project-codehub-vm-node1"
+  name                  = "project-codehub-vm-node"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.netif.id]
@@ -116,7 +125,7 @@ resource "azurerm_virtual_machine" "vm" {
   storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
 
